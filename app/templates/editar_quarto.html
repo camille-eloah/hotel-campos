@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block title %}Editar Quarto{% endblock %}
+
+{% block content %}
+    <h1>Editar Quarto: {{ quarto.qua_nome }}</h1>
+
+    <form action="/editar_quarto/{{ quarto.qua_numero }}" method="POST">
+        Número do quarto: <input type="text" name="qua_numero" value="{{ quarto.quarto_numero }}"><br>
+        Quantidade de camas: <input type="text" name="qua_camas" value="{{ quarto.qua_camas}}"><br>
+        Valor diário do quarto: <input type="text" name="qua_valor" value="{{ quarto.qua_valor }}"><br>
+        
+        <label>Características:</label><br>
+        <input type="checkbox" name="qua_caracteristicas" value="Varanda" {% if 'Varanda' in quarto.qua_caracteristicas %}checked{% endif %}> Varanda<br>
+        <input type="checkbox" name="qua_caracteristicas" value="Restaurante" {% if 'Frigobar' in quarto.qua_caracteristicas %}checked{% endif %}> Frigobar<br>
+        <input type="checkbox" name="qua_caracteristicas" value="Suite" {% if 'Suite' in quarto.qua_caracteristicas %}checked{% endif %}> Suite<br>
+        <input type="checkbox" name="qua_caracteristicas" value="privado" {% if 'Wifi privado' in quarto.qua_caracteristicas %}checked{% endif %}> Wi-Fi privado<br>
+
+        <input type="submit" value="Atualizar">
+    </form>
+
+    {% endblock %}

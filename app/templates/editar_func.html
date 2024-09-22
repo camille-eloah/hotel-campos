@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/editar.css">
+</head>
+
+
+{% extends 'layout.html' %}
+
+{% block title %}Editar Funcionário{% endblock %}
+
+
+{% block content %}
+
+    <h1>Editar Funcionário: {{ usuario.user_nome }}</h1>
+
+    <form action="/editar_func/{{ usuario.user_nome }}" method="POST">
+        Nome: <input type="text" name="user_nome" value="{{ usuario.user_nome }}"><br>
+        E-mail: <input type="text" name="user_email" value="{{ usuario.user_email }}"><br>
+        Senha: <input type="password" name="user_senha" value="{{ usuario.user_senha }}"><br>
+
+        <div class="container-botao-form-btn">
+            <button class="botao-form-btn">
+                Atualizar 
+            </button>
+        </div>
+    </form>
+
+{% endblock %}
+

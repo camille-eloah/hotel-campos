@@ -1,0 +1,96 @@
+<style>
+    .botao-form-btn {
+  font-family: Montserrat-Bold;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #fff;
+  text-transform: uppercase;
+
+  width: 100%;
+  height: 50px;
+  border-radius: 25px;
+  background: #d63384;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 25px;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.container-botao-form-btn {
+  width: 20%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 20px;
+}
+</style>
+
+{% extends 'layout.html' %}
+
+{% block title %}Cadastro de Hóspedes{% endblock %}
+
+{% block content %}
+    <h1>Bem-vindo a página de cadastrar hóspedes</h1>
+    
+    {% if mensagem %}
+        <div style="color: red;">{{ mensagem }}</div>
+    {% endif %}
+
+    <h2>Hóspedes cadastrados:</h2>
+    <ul>
+        {% for hospede in hospedes %}
+            <li>Nome:{{ hospede.hos_nome }} - Email: {{ hospede.hos_email }} - Data de check in {{hospede.hos_data_hora_in}} - Data de check out {{hospede.hos_data_hora_out}}</li>
+            <form action="{{ url_for('remove_hospede', hos_nome=hospede.hos_nome) }}"  method="POST">
+                <input type="submit" value="Delete" onclick="return confirm('Você tem certeza que deseja remover este hóspede?');">
+            </form>
+            <a href="/editar_hosp/{{ hospede.hos_nome }}">Editar Hospede</a>
+        {% endfor %}
+    </ul>
+    
+    <form action="/cadastro_hosp" method="POST">
+        <label for="nome">Nome do Hóspede</label>
+        <input type="name" name="nome" required><br>
+        
+        <label for="email">E-mail</label>
+        <input type="email" name="email" required><br>
+        
+        <label for="telefone">Telefone</label>
+        <input type="number" name="telefone" required><br>
+        
+        <label for="cpf">CPF</label>
+        <input type="name" name="cpf" required><br>
+        
+        <label for="rg">RG</label>
+        <input type="name" name="rg" required><br>
+        
+        <label for="pagamento">Forma de pagamento</label>
+        <input type="name" name="pagamento" required><br>
+        
+        <label for="checkin">Data/Hora de Check-in</label>
+        Data/Hora Check In: <input type="datetime-local" name="data_hora_in" required><br>
+
+        <label for="checkout">Data/Hora de Check-out/label>
+        Data/Hora Check Out: <input type="datetime-local" name="data_hora_out" required><br>
+
+        <div class="container-botao-form-btn">
+            <button class="botao-form-btn">
+                Cadastrar
+            </button>
+        </div>
+
+    </form>
+
+    {%endblock%}

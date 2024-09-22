@@ -1,0 +1,104 @@
+<style>
+    .botao-form-btn {
+  font-family: Montserrat-Bold;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #fff;
+  text-transform: uppercase;
+
+  width: 100%;
+  height: 50px;
+  border-radius: 25px;
+  background: #d63384;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 25px;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.container-botao-form-btn {
+  width: 20%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 20px;
+}
+</style>
+
+
+{% extends 'layout.html' %}
+
+{% block title %}Reservar Quarto{% endblock %}
+
+{% block content %}
+    <h1>Reservar Quarto</h1>
+
+    <form action="/reservar_quarto" method="POST">
+        <label for="hos_id">Hóspede:</label>
+        <select name="hos_id" required>
+            {% for hospede in hospedes %}
+                <option value="{{ hospede.hos_id }}">{{ hospede.hos_nome }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        
+        <label for="qua_id">Quarto:</label>
+        <select name="qua_id" required>
+            {% for quarto in quartos %}
+                <option value="{{ quarto.qua_id }}">Quarto {{ quarto.qua_numero }} - R$ {{ quarto.qua_valor }}</option>
+            {% endfor %}
+        </select>
+        <br>
+
+        <input type="hidden" name="disponibilidade" value="Ocupado">
+        <input type="submit" value="Reservar Quarto">
+    </form>
+
+    <h2>Quartos Reservados</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID da Reserva</th>
+                <th>Número do Quarto</th>
+                <th>Nome do Hóspede</th>
+                <th>Email do Hóspede</th>
+                <th>Telefone do Hóspede</th>
+                <th>Características do Quarto</th>
+                <th>Camas</th>
+                <th>Valor do Quarto</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reserva in reservas %}
+                <tr>
+                    <td>{{ reserva.res_id }}</td>
+                    <td>{{ reserva.qua_numero }}</td>
+                    <td>{{ reserva.hos_nome }}</td>
+                    <td>{{ reserva.hos_email }}</td>
+                    <td>{{ reserva.hos_telefone }}</td>
+                    <td>{{ reserva.qua_caracteristicas }}</td>
+                    <td>{{ reserva.qua_camas }}</td>
+                    <td>R$ {{ reserva.qua_valor }}</td>
+                    <td>
+                        <form action="{{ url_for('remove_reserva', res_id=reserva.res_id) }}" method="post">
+                            <input type="submit" value="Remover">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

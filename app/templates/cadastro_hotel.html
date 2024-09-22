@@ -1,0 +1,97 @@
+<style>
+    .botao-form-btn {
+  font-family: Montserrat-Bold;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #fff;
+  text-transform: uppercase;
+
+  width: 100%;
+  height: 50px;
+  border-radius: 25px;
+  background: #d63384;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 25px;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.container-botao-form-btn {
+  width: 20%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 20px;
+}
+
+</style>
+
+{% extends 'layout.html' %}
+
+{% block title %}Cadastro de Hotel{% endblock %}
+
+{% block content %}
+
+    <h1>Hotéis</h1>
+
+    <ul>
+        {% for hotel in hotel %}
+            <li>
+                Nome: {{ hotel.hotel_nome }} - Endereço: {{ hotel.hotel_endereco }}
+                <ul>
+                    <strong>Características:</strong>
+                    {% if hotel.hotel_caracteristicas %}
+                        {% for caracteristica in hotel.hotel_caracteristicas %}
+                            <li>{{ caracteristica }}</li>
+                        {% endfor %}
+                    {% else %}
+                        <li>Nenhuma característica disponível.</li>
+                    {% endif %}
+                </ul>
+                <a href="{{ url_for('remove_hotel', hotel_nome=hotel.hotel_nome) }}" onclick="return confirm('Você tem certeza que deseja remover este hotel?');">Remover Hotel</a>
+                <a style="color: #044253"; href="/editar_hotel/{{ hotel.hotel_nome }}">Editar Hotel</a>
+            </li>
+        {% endfor %}
+    </ul>
+    
+    <h2>Cadastrar hotel</h2>
+    <form action="/cadastro_hotel" method="POST">
+        Nome: <input type="text" name="hotel_nome"><br>
+        Endereço: <input type="text" name="hotel_endereco"><br>
+
+        <label>Características:</label><br>
+        
+        <div class="checkbox-group">
+            <input type="checkbox" name="hotel_caracteristicas" value="Academia"> Academia<br>
+            <input type="checkbox" name="hotel_caracteristicas" value="Restaurante"> Restaurante<br>
+            <input type="checkbox" name="hotel_caracteristicas" value="Sala-Jogos"> Sala de Jogos<br>
+            <input type="checkbox" name="hotel_caracteristicas" value="Estacionamento"> Estacionamento<br>
+            <input type="checkbox" name="hotel_caracteristicas" value="Wi-Fi gratuito"> Wi-Fi gratuito<br>
+            <input type="checkbox" name="hotel_caracteristicas" value="Piscina"> Piscina<br>
+            <input type="checkbox" name="hotel_caracteristicas" value="Mercadinho"> Mercadinho<br>
+            <input type="checkbox" name="hotel_caracteristicas" value="Acessibilidade"> Acessibilidade<br>
+            </div>
+
+        <div class="container-botao-form-btn">
+            <button class="botao-form-btn">
+                Cadastrar
+            </button>
+        </div>
+
+    </form>
+
+
+{%endblock%}

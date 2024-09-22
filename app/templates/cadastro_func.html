@@ -1,0 +1,86 @@
+<style>
+    .botao-form-btn {
+  font-family:"Plus Jakarta Sans";
+  font-size: 15px;
+  line-height: 1.5;
+  color: #fff;
+  text-transform: uppercase;
+
+  width: 100%;
+  height: 50px;
+  border-radius: 25px;
+  background: #d63384;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 25px;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.container-botao-form-btn {
+  width: 20%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 20px;
+}
+
+</style>
+
+
+{% extends 'layout.html' %}
+
+{% block title %}Cadastro de funcinários{% endblock %}
+
+{% block content %}
+    <h1>Usuários</h1>
+    
+    <ul>
+        {% for usuario in usuarios %}
+            <li>{{ usuario.user_nome }} - {{ usuario.user_email }}</li>
+            <a href="{{ url_for('remove_func', user_nome=usuario.user_nome) }}" onclick="return confirm('Você tem certeza que deseja remover este funcionário?');">Remover Funcionário</a>
+            <a style="color: #044253" href="/editar_func/{{ usuario.user_nome }}">Editar Funcionário</a>
+        {% endfor %}
+    </ul>
+
+    {% if mensagem %}
+    <p style="color: red;">{{ mensagem }}</p>
+    {% endif %}
+
+    <h2>Cadastrar funcionário</h2>
+
+    <div class="container">
+
+    <form action="/add" method="POST">
+        <label for="username">Nome de Usuário</label>
+        <input type="text" name="nome"><br>
+        
+        <label for="email">E-mail</label>
+        <input type="email" name="email"><br>
+        
+        <label for="password">Senha</label>
+        <input type="password" name="pass"><br>
+
+        <div class="container-botao-form-btn">
+            <button class="botao-form-btn">
+                Cadastrar
+            </button>
+        </div>
+
+    </form>
+
+    </div>
+    
+{%endblock%}

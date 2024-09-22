@@ -1,0 +1,97 @@
+<style>
+    .botao-form-btn {
+  font-family: Montserrat-Bold;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #fff;
+  text-transform: uppercase;
+
+  width: 100%;
+  height: 50px;
+  border-radius: 25px;
+  background: #d63384;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 25px;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.container-botao-form-btn {
+  width: 20%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 20px;
+}
+</style>
+
+{% extends 'layout.html' %}
+
+{% block title %}Cadastro de Quartos{% endblock %}
+
+{% block content %}
+    <h2>Quartos cadastrados</h2>
+    <ul>
+        {% for quarto in quartos %}
+            <li>
+                Número do quarto: {{ quarto.qua_numero }} - Serviços ofertados: {{ quarto.qua_caracteristicas }} - Quantidade de camas disponíveis: {{ quarto.qua_camas }} - Valor diário do quarto: {{ quarto.qua_valor }}
+            </li>
+            <form action="{{ url_for('remove_quarto', qua_numero=quarto.qua_numero) }}" method="POST">
+                <input type="submit" value="Delete">
+            </form>
+            <a href="/editar_quarto/{{ quarto.qua_numero }}">Editar Quarto</a>
+        {% endfor %}
+    </ul>
+    
+    <form action="/cadastro_quarto" method="POST">
+        <label for="numero">Número do Quarto</label>
+        <input type="number" id="nome" name="numero" required><br>
+        
+        <label class="title"><strong>Serviços ofertados</strong></label><br>
+        <div class="checkbox-group">
+            <input type="checkbox" name="qua_caracteristicas" value="wifi"> Wi-fi privado<br>
+            <input type="checkbox" name="qua_caracteristicas" value="ar-condicionado"> Ar-Condicionado<br>
+            <input type="checkbox" name="qua_caracteristicas" value="Cafe"> Café da manhã<br>
+            <input type="checkbox" name="qua_caracteristicas" value="isolamento"> Isolamento acústico<br>
+            <input type="checkbox" name="qua_caracteristicas" value="servicos"> Serviços de quarto<br>
+            <input type="checkbox" name="qua_caracteristicas" value="frigobar">Frigobar<br>
+            <input type="checkbox" name="qua_caracteristicas" value="suite"> Suite<br>
+            <input type="checkbox" name="qua_caracteristicas" value="varanda"> Varanda<br>
+            <input type="checkbox" name="qua_caracteristicas" value="tv"> Televisão<br>
+            <input type="checkbox" name="qua_caracteristicas" value="armadores"> Armadores para redes<br>
+        </div>
+
+        <div class="number-group"> 
+            <label class="title">Quantidade de camas</label>
+            <input type="number" name="qua_camas" required><br>
+
+        </div>
+
+        <div class="valor">
+            <label class="title" for="">Valor da diária</label>
+            <input type="number" name="valor_quarto" required><br>
+        </div>
+
+        <div class="container-botao-form-btn">
+            <button class="botao-form-btn">
+                Cadastrar
+            </button>
+        </div>
+
+    </form>
+
+{%endblock%}
+

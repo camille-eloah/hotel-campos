@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <title>{% block title %}Hotel Campus{% endblock %}</title>
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=Rubik:wght@400;500&display=swap" rel="stylesheet"> 
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Libraries Stylesheet -->
+    <link href="static/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="static/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="static/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="static/css/style.css" rel="stylesheet">
+
+</head>
+<body>
+    <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+             </div>
+        </div>
+    <!-- Spinner End -->
+    
+     <!-- Navbar & Hero Start -->
+    <div class="container-fluid header position-relative overflow-hidden p-0">
+        <nav class="navbar navbar-expand-lg fixed-top navbar-light px-4 px-lg-5 py-3 py-lg-0">
+        
+            <a href="{{url_for('index')}}" class="navbar-brand p-0">
+                <h1 class="display-6 text-primary m-0"><i class="bi bi-buildings"></i>Hotel Campos</h1>
+                <!-- <img src="img/logo.png" alt="Logo"> -->
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Cadastros</a>
+                        <div class="dropdown-menu m-0">
+                            <a href="/cadastro_func" class="dropdown-item">Cadastrar Funcionário</a>
+                            <a href="/cadastro_hotel" class="dropdown-item">Cadastrar Hotel</a>
+                            <a href="/cadastro_quarto" class="dropdown-item">Cadastrar Quarto</a>
+                            <a href="/cadastro_hosp" class="dropdown-item">Cadastrar Hospéde</a>
+                            {% if current_user.is_authenticated %}
+                            <li><a href="/logout">Logout</a></li>
+                            {% else %}
+                            <li><a href="/login">Login</a></li>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <a href="/index" class="nav-item nav-link active">Página Inicial</a>
+                </div>
+            </div>
+        </nav>
+
+        
+            <!-- Hero Header Start -->
+            <div class="hero-header overflow-hidden px-5">
+                <div class="rotate-img">
+                    <img src="static/img/sty-1.png" class="img-fluid w-100" alt="">
+                    <div class="rotate-sty-2"></div>
+                </div>
+                <div class="row gy-5 align-items-center">
+                    <div class="conteudo">{% block content %}{% endblock %}</div>
+                </div>
+            </div>
+            <!-- Hero Header End -->
+        </div>
+        <!-- Navbar & Hero End -->
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="static/lib/wow/wow.min.js"></script>
+    <script src="static/lib/easing/easing.min.js"></script>
+    <script src="static/lib/waypoints/waypoints.min.js"></script>
+    <script src="static/lib/counterup/counterup.min.js"></script>
+    <script src="static/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="static/lib/lightbox/js/lightbox.min.js"></script>
+    
+
+    <!-- Template Javascript -->
+    <script src="static/js/main.js"></script>
+
+</body>
+</html>

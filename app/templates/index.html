@@ -1,0 +1,55 @@
+<style>
+    .botao-form-btn {
+  font-family:"Plus Jakarta Sans";
+  font-size: 15px;
+  line-height: 1.5;
+  color: #fff;
+  text-transform: uppercase;
+  
+  width: auto; 
+  height: 50px;
+  border-radius: 25px;
+  background: #d63384;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 25px;
+  
+  transition: all 0.4s;
+}
+
+.container-botao-form-btn {
+  /* Ajuste de largura do contêiner */
+  width: 27%; /* Altere a largura do contêiner para auto */
+  display: flex; /* Flexbox já está habilitado */
+  gap: 10px; /* Espaçamento entre os botões */
+  justify-content: center;
+  padding-top: 20px;
+}
+
+</style>
+
+{% extends 'layout.html' %}
+
+{% block title %}Página Inicial{% endblock %}
+
+{% block content %}
+    <h1>Bem vindo ao Hotel Campus</h1>
+    <h2>Aqui você gerencia seu hotel sem sair da telinha!</h2>
+
+    <div class="container-botao-form-btn">
+        <a href="/login">
+            <button class="botao-form-btn">
+                Login
+            </button> 
+        </a>
+        <a href="/cadastro_func">
+            <button class="botao-form-btn">
+                Cadastro de funcionário 
+            </button>
+        </a>
+    </div>
+
+
+{% endblock %}
