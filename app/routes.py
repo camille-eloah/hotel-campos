@@ -25,7 +25,7 @@ def logout():
 @app.route('/cadastro_func')
 @login_required 
 def cadastro_func():
-    if not current_user.user_admin:  # Verifica se user_admin não é 1
+    if not current_user.user_admin: 
         return render_template('index.html')  # Redireciona para a página inicial se não for admin
     
     connection = get_db_connection()
