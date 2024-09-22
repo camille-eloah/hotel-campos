@@ -7,8 +7,8 @@ Sistema de administração para hotéis
 pip install -r requirements.txt
 ```
    
-3. Crie as tabelas do init_db.sql no seu servidor MySQL
-4. Insira o administrador do servidor.
+2. Crie as tabelas do init_db.sql no seu servidor MySQL
+3. Insira o administrador executando o insert_admin.py
    > Usuário default: admin
    
    > Senha default: 123
