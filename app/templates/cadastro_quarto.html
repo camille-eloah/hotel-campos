@@ -54,10 +54,8 @@
             <li>
                 Número do quarto: {{ quarto.qua_numero }} - Serviços ofertados: {{ quarto.qua_caracteristicas }} - Quantidade de camas disponíveis: {{ quarto.qua_camas }} - Valor diário do quarto: {{ quarto.qua_valor }}
             </li>
-            <form action="{{ url_for('remove_quarto', qua_numero=quarto.qua_numero) }}" method="POST">
-                <input type="submit" value="Delete">
-            </form>
-            <a href="/editar_quarto/{{ quarto.qua_numero }}">Editar Quarto</a>
+            <a href="{{ url_for('remove_quarto', qua_numero=quarto.qua_numero) }}" onclick="return confirm('Você tem certeza que deseja remover este quarto?');">Remover Quarto</a>
+            <a style="color: #044253" href="/editar_quarto/{{ quarto.qua_numero }}">Editar Quarto</a>
         {% endfor %}
     </ul>
     

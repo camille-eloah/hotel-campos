@@ -53,10 +53,9 @@
     <ul>
         {% for hospede in hospedes %}
             <li>Nome:{{ hospede.hos_nome }} - Email: {{ hospede.hos_email }} - Data de check in {{hospede.hos_data_hora_in}} - Data de check out {{hospede.hos_data_hora_out}}</li>
-            <form action="{{ url_for('remove_hospede', hos_nome=hospede.hos_nome) }}"  method="POST">
-                <input type="submit" value="Delete" onclick="return confirm('Você tem certeza que deseja remover este hóspede?');">
-            </form>
-            <a href="/editar_hosp/{{ hospede.hos_nome }}">Editar Hospede</a>
+            
+            <a href="{{ url_for('remove_hospede', hos_nome=hospede.hos_nome) }}" onclick="return confirm('Você tem certeza que deseja remover este hóspede?');">Remover Hóspede</a>
+            <a style="color: #044253" href="/editar_hosp/{{ hospede.hos_nome }}">Editar Hospede</a>
         {% endfor %}
     </ul>
     

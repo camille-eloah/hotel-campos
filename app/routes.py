@@ -236,7 +236,7 @@ def editar_quarto(qua_numero):
 
     return render_template('editar_quarto.html', quarto=quarto)
 
-@app.route('/remove_quarto/<int:qua_numero>', methods=['POST']) 
+@app.route('/remove_quarto/<int:qua_numero>', methods=['GET', 'POST']) 
 @login_required
 def remove_quarto(qua_numero):
     connection = get_db_connection()
