@@ -3,12 +3,11 @@ USE hotel_campus_db;
 
 CREATE TABLE tb_usuarios (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_nome VARCHAR(80) NOT NULL,
-    user_email VARCHAR(120) NOT NULL,
+    user_nome VARCHAR(80) NOT NULL UNIQUE, -- user_nome será único
+    user_email VARCHAR(120) NOT NULL UNIQUE, -- user_email será único
     user_senha VARCHAR(255) NOT NULL,
     user_admin TINYINT(1) NOT NULL DEFAULT 0 -- Para dizer se o usuario é superadmin ou não
 );
-
 
 CREATE TABLE tb_hospedes (
     hos_id INT AUTO_INCREMENT PRIMARY KEY,

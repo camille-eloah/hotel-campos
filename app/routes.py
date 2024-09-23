@@ -3,6 +3,7 @@ from flask_login import LoginManager, current_user, login_required, login_user, 
 from app import app, get_db_connection, routes
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Mail, Message
+from pymysql.err import IntegrityError
 
 import smtplib
 import email.message
@@ -17,7 +18,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/logout')
-@login_required  # Certifica-se de que o usuário está logado
+@login_required
 def logout():
     logout_user() 
     return render_template('index.html')
@@ -37,6 +38,7 @@ def cadastro_func():
     return render_template('cadastro_func.html', usuarios=usuarios)
 
 @app.route('/editar_func/<string:user_nome>', methods=['POST', 'GET']) 
+@login_required
 def editar_func(user_nome):
     connection = get_db_connection()
     
@@ -66,6 +68,7 @@ def editar_func(user_nome):
 
 
 @app.route('/remove_func/<string:user_nome>', methods=['GET', 'POST'])
+@login_required
 def remove_func(user_nome):
     connection = get_db_connection()
     
@@ -91,6 +94,7 @@ def remove_func(user_nome):
 
 
 @app.route('/cadastro_hosp', methods = ['POST', 'GET']) 
+@login_required
 def cadastro_hosp():
     hospedes=[]
     connection = get_db_connection()
@@ -119,6 +123,7 @@ def cadastro_hosp():
     return render_template('cadastro_hosp.html', hospedes=hospedes)
 
 @app.route('/editar_hosp/<string:hos_nome>', methods = ['POST','GET']) # Edita os hóspedes desejados
+@login_required
 def editar_hosp(hos_nome):
     connection = get_db_connection()
     if request.method == 'POST':
@@ -150,6 +155,7 @@ def editar_hosp(hos_nome):
 
 
 @app.route('/remove_hospede/<string:hos_nome>', methods=['POST', 'GET'])
+@login_required
 def remove_hospede(hos_nome):
     connection = get_db_connection()
     mensagem = None  
@@ -170,6 +176,7 @@ def remove_hospede(hos_nome):
 
 
 @app.route('/cadastro_quarto', methods= ['POST', 'GET'])  
+@login_required
 def cadastro_quarto(): 
     quartos = []
     connection = get_db_connection()
@@ -197,6 +204,7 @@ def cadastro_quarto():
     return render_template('cadastro_quarto.html', quartos=quartos)
 
 @app.route('/editar_quarto/<string:qua_numero>', methods=['POST', 'GET']) 
+@login_required
 def editar_quarto(qua_numero):
     connection = get_db_connection()
     
@@ -227,6 +235,7 @@ def editar_quarto(qua_numero):
     return render_template('editar_quarto.html', quarto=quarto)
 
 @app.route('/remove_quarto/<int:qua_numero>', methods=['POST']) 
+@login_required
 def remove_quarto(qua_numero):
     connection = get_db_connection()
     with connection.cursor() as cursor:
@@ -240,6 +249,7 @@ def remove_quarto(qua_numero):
     return render_template('cadastro_quarto.html', quartos=quartos)
 
 @app.route('/cadastro_hotel', methods=['POST', 'GET']) # Cadastra Hotel
+@login_required
 def cadastro_hotel():
     hotel = []  
     connection = get_db_connection()
@@ -280,6 +290,7 @@ def cadastro_hotel():
     return render_template('cadastro_hotel.html', hotel=hotel)
 
 @app.route('/remove_hotel/<string:hotel_nome>', methods=['GET', 'POST']) # Remove hotel desejado
+@login_required
 def remove_hotel(hotel_nome):
     connection = get_db_connection()
     with connection.cursor() as cursor:
@@ -295,6 +306,7 @@ def remove_hotel(hotel_nome):
 
         
 @app.route('/editar_hotel/<string:hotel_nome>', methods=['POST', 'GET']) 
+@login_required
 def editar_hotel(hotel_nome):
     connection = get_db_connection()
     
@@ -319,32 +331,48 @@ def editar_hotel(hotel_nome):
 
     return render_template('editar_hotel.html', hotel=hotel)
 
+
+
 @app.route('/add', methods=['POST'])
+@login_required
 def add_user():
     nome = request.form['nome']
     email = request.form['email']
     senha = request.form['pass']
-    
 
     hashed_senha = generate_password_hash(senha)
     
     connection = get_db_connection()
-    with connection.cursor() as cursor:
-        cursor.execute('INSERT INTO tb_usuarios (user_nome, user_email, user_senha) VALUES (%s, %s, %s)', (nome, email, hashed_senha))
-        connection.commit()
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute('INSERT INTO tb_usuarios (user_nome, user_email, user_senha) VALUES (%s, %s, %s)', 
+                           (nome, email, hashed_senha))
+            connection.commit()
 
+            corpo = f"""
+            <p style='color: #d63384'>Bem-vindo, {nome}!</p>
+            <p>Você foi cadastrado como funcionário no Hotel Campus!</p>
+            """
 
-        corpo = f"""
-        <p style= 'color: #d63384'>Bem-vindo, {nome}!</p>
-        <p>Você foi cadastrado como funcionário no Hotel Campus!</p>
-        """
+            assunto = f"Parabéns! Você foi cadastrado no Hotel Campus com sucesso"
+            destinatario = email 
 
-        assunto = f"Parabéns! Você foi cadastrado no Hotel Campus com sucesso"
-        destinatario = email 
+            User.enviar_email(corpo, assunto, destinatario)
 
-        User.enviar_email(corpo, assunto, destinatario)
+    except IntegrityError as e:
+        if e.args[0] == 1062:
+            mensagem = "Já existe um usuário com esse nome ou e-mail."
 
-    connection.close()
+            with connection.cursor() as cursor:
+                cursor.execute('SELECT * FROM tb_usuarios')
+                usuarios = cursor.fetchall()
+
+            return render_template('cadastro_func.html', mensagem=mensagem, usuarios=usuarios)
+        else:
+            raise
+
+    finally:
+        connection.close()
 
     return redirect('/cadastro_func')
 
@@ -373,6 +401,7 @@ def login():
 
 
 @app.route('/reservar_quarto', methods=['POST', 'GET'])
+@login_required
 def reservar_quarto():
     quartos = []
     hospedes = []
@@ -420,6 +449,7 @@ def reservar_quarto():
     return render_template('reservar_quarto.html', quartos=quartos, hospedes=hospedes, reservas=reservas)
 
 @app.route('/remove_reserva/<int:res_id>', methods=['POST', 'GET'])
+@login_required
 def remove_reserva(res_id):
     connection = get_db_connection()
     with connection.cursor() as cursor:
