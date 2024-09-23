@@ -79,6 +79,8 @@
                 <th>Características do Quarto</th>
                 <th>Camas</th>
                 <th>Valor do Quarto</th>
+                <th>Data de check-in</th>
+                <th>Data de check-out</th>
             </tr>
         </thead>
         <tbody>
@@ -92,6 +94,9 @@
                     <td>{{ reserva.qua_caracteristicas }}</td>
                     <td>{{ reserva.qua_camas }}</td>
                     <td>R$ {{ reserva.qua_valor }}</td>
+                    <td>{{ reserva.hos_data_hora_in }}</td>
+                    <td>{{ reserva.hos_data_hora_out }}</td>
+
                     <td>
                         <form action="{{ url_for('remove_reserva', res_id=reserva.res_id) }}" method="post">
                             <input type="submit" value="Remover">

@@ -447,7 +447,7 @@ def reservar_quarto():
         # Buscando as reservas e realizando o JOIN entre tb_reserva_qua, tb_hospedes e tb_quartos
         cursor.execute('''
             SELECT tb_reserva_qua.res_id, tb_hospedes.hos_nome, tb_hospedes.hos_email, tb_hospedes.hos_telefone, 
-                   tb_quartos.qua_numero, tb_quartos.qua_caracteristicas, tb_quartos.qua_camas, tb_quartos.qua_valor
+                   tb_quartos.qua_numero, tb_quartos.qua_caracteristicas, tb_quartos.qua_camas, tb_quartos.qua_valor, tb_hospedes.hos_data_hora_in, tb_hospedes.hos_data_hora_out
             FROM tb_reserva_qua
             JOIN tb_hospedes ON tb_reserva_qua.res_hos_id = tb_hospedes.hos_id
             JOIN tb_quartos ON tb_reserva_qua.res_qua_id = tb_quartos.qua_id
