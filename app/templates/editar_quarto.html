@@ -11,10 +11,16 @@
         Valor diário do quarto: <input type="text" name="qua_valor" value="{{ quarto.qua_valor }}"><br>
         
         <label>Características:</label><br>
-        <input type="checkbox" name="qua_caracteristicas" value="Varanda" {% if 'Varanda' in quarto.qua_caracteristicas %}checked{% endif %}> Varanda<br>
-        <input type="checkbox" name="qua_caracteristicas" value="Restaurante" {% if 'Frigobar' in quarto.qua_caracteristicas %}checked{% endif %}> Frigobar<br>
-        <input type="checkbox" name="qua_caracteristicas" value="Suite" {% if 'Suite' in quarto.qua_caracteristicas %}checked{% endif %}> Suite<br>
-        <input type="checkbox" name="qua_caracteristicas" value="privado" {% if 'Wifi privado' in quarto.qua_caracteristicas %}checked{% endif %}> Wi-Fi privado<br>
+        <input type="checkbox" name="qua_caracteristicas" value="Wi-fi privado" {% if 'Wi-fi privado' in quarto.qua_caracteristicas %}checked{% endif %}>Wi-Fi privado<br>
+        <input type="checkbox" name="qua_caracteristicas" value="Ar-condicionado" {% if 'Ar-condicionado' in quarto.qua_caracteristicas %}checked{% endif %}>Ar-Condicionado<br>
+        <input type="checkbox" name="qua_caracteristicas" value="Cafe da manha" {% if 'Café da manhã' in quarto.qua_caracteristicas %}checked{% endif %}>Café da manhã<br>
+        <input type="checkbox" name="qua_caracteristicas" value="Isolamento acustico" {% if 'Isolamento acústico' in quarto.qua_caracteristicas %}checked{% endif %}>Isolamento acústico<br>
+        <input type="checkbox" name="qua_caracteristicas" value="Servico de quarto" {% if 'Servico de quarto' in quarto.qua_caracteristicas %}checked{% endif %}>Servico de quarto<br>
+        <input type="checkbox" name="qua_caracteristicas" value="Frigobar" {% if 'Frigobar' in quarto.qua_caracteristicas %}checked{% endif %}>Frigobar<br>
+        <input type="checkbox" name="qua_caracteristicas" value="Suite" {% if 'Suite' in quarto.qua_caracteristicas %}checked{% endif %}>Suite<br>
+        <input type="checkbox" name="qua_caracteristicas" value="Varanda" {% if 'Varanda' in quarto.qua_caracteristicas %}checked{% endif %}>Varanda<br>
+        <input type="checkbox" name="qua_caracteristicas" value="Televisão" {% if 'Televisão' in quarto.qua_caracteristicas %}checked{% endif %}>Televisão<br>
+        <input type="checkbox" name="qua_caracteristicas" value="Armadores para redes" {% if 'Armadores para redes' in quarto.qua_caracteristicas %}checked{% endif %}>Armadores para redes<br>
 
         <input type="submit" value="Atualizar">
     </form>

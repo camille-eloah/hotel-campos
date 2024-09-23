@@ -3,7 +3,9 @@ from flask_login import LoginManager, current_user, login_required, login_user, 
 from app import app, get_db_connection, routes
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Mail, Message
-from pymysql.err import IntegrityError
+import pymysql
+from pymysql.err import IntegrityError, OperationalError
+
 
 import smtplib
 import email.message
@@ -238,15 +240,41 @@ def editar_quarto(qua_numero):
 @login_required
 def remove_quarto(qua_numero):
     connection = get_db_connection()
-    with connection.cursor() as cursor:
-        cursor.execute('DELETE FROM tb_quartos WHERE qua_numero = %s', (qua_numero,))
-        connection.commit()
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute('DELETE FROM tb_quartos WHERE qua_numero = %s', (qua_numero,))
+            connection.commit()
 
-        cursor.execute('SELECT * FROM tb_quartos')
-        quartos = cursor.fetchall()
+            cursor.execute('SELECT * FROM tb_quartos')
+            quartos = cursor.fetchall()
+
+    except pymysql.err.IntegrityError:
+        with connection.cursor() as cursor:
+            cursor.execute('SELECT * FROM tb_quartos')
+            quartos = cursor.fetchall()
+
+        mensagem = "Você não pode remover esse quarto porque provavelmente ele está com uma reserva!"
+        connection.rollback()  
+        return render_template('cadastro_quarto.html', quartos=quartos, mensagem=mensagem)
+
+    except pymysql.err.OperationalError as e:
+        # Captura o erro de tempo excedido (Lock wait timeout exceeded)
+        if e.args[0] == 1205:  # Código de erro 1205: 'Lock wait timeout exceeded'
+            mensagem = "A operação está demorando demais. Tente novamente mais tarde."
+        else:
+            mensagem = "Ocorreu um erro inesperado durante a remoção do quarto."
+        connection.rollback()  
+
+        with connection.cursor() as cursor:
+            cursor.execute('SELECT * FROM tb_quartos')
+            quartos = cursor.fetchall()
+
+        return render_template('cadastro_quarto.html', quartos=quartos, mensagem=mensagem)
 
     connection.close()
     return render_template('cadastro_quarto.html', quartos=quartos)
+
+
 
 @app.route('/cadastro_hotel', methods=['POST', 'GET']) # Cadastra Hotel
 @login_required

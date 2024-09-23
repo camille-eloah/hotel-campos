@@ -44,6 +44,11 @@
 
 {% block content %}
     <h2>Quartos cadastrados</h2>
+
+    {% if mensagem %}
+    <div style="color: red;">{{ mensagem }}</div>
+    {% endif %}
+
     <ul>
         {% for quarto in quartos %}
             <li>
@@ -62,16 +67,16 @@
         
         <label class="title"><strong>Serviços ofertados</strong></label><br>
         <div class="checkbox-group">
-            <input type="checkbox" name="qua_caracteristicas" value="wifi"> Wi-fi privado<br>
-            <input type="checkbox" name="qua_caracteristicas" value="ar-condicionado"> Ar-Condicionado<br>
-            <input type="checkbox" name="qua_caracteristicas" value="Cafe"> Café da manhã<br>
-            <input type="checkbox" name="qua_caracteristicas" value="isolamento"> Isolamento acústico<br>
-            <input type="checkbox" name="qua_caracteristicas" value="servicos"> Serviços de quarto<br>
-            <input type="checkbox" name="qua_caracteristicas" value="frigobar">Frigobar<br>
-            <input type="checkbox" name="qua_caracteristicas" value="suite"> Suite<br>
-            <input type="checkbox" name="qua_caracteristicas" value="varanda"> Varanda<br>
-            <input type="checkbox" name="qua_caracteristicas" value="tv"> Televisão<br>
-            <input type="checkbox" name="qua_caracteristicas" value="armadores"> Armadores para redes<br>
+            <input type="checkbox" name="qua_caracteristicas" value="Wi-fi privado">Wi-fi privado<br>
+            <input type="checkbox" name="qua_caracteristicas" value="Ar-condicionado">Ar-Condicionado<br>
+            <input type="checkbox" name="qua_caracteristicas" value="Cafe da manha">Café da manhã<br>
+            <input type="checkbox" name="qua_caracteristicas" value="Isolamento acustico">Isolamento acústico<br>
+            <input type="checkbox" name="qua_caracteristicas" value="Servicos de quarto">Serviços de quarto<br>
+            <input type="checkbox" name="qua_caracteristicas" value="Frigobar">Frigobar<br>
+            <input type="checkbox" name="qua_caracteristicas" value="Suite">Suite<br>
+            <input type="checkbox" name="qua_caracteristicas" value="Varanda">Varanda<br>
+            <input type="checkbox" name="qua_caracteristicas" value="TV">Televisão<br>
+            <input type="checkbox" name="qua_caracteristicas" value="Armadores">Armadores para redes<br>
         </div>
 
         <div class="number-group"> 
